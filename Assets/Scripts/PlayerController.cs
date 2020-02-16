@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    public float speed = 3.5f;
+    [SerializeField]
+    private float _speed = 3.5f;
+    [SerializeField]
+    private GameObject _laserPrefab; 
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +19,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+        }
     }
 
     void CalculateMovement()
@@ -23,12 +31,8 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-
-
-        transform.Translate(Vector3.right * horizontal * speed * Time.deltaTime);
-        transform.Translate(Vector3.up * vertical * speed * Time.deltaTime);
-
-        // y < -4.1f y > 6 x >9.2 x < -4.1
+        transform.Translate(Vector3.right * horizontal * _speed * Time.deltaTime);
+        transform.Translate(Vector3.up * vertical * _speed * Time.deltaTime);
 
         if (transform.position.y < -4.1f)
         {
